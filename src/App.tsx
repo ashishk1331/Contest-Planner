@@ -8,6 +8,11 @@ import {
   nextSaturday,
   isToday,
 } from "date-fns";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { twMerge } from "tailwind-merge";
 import Leetcode from "./logos/Leetcode";
 import { useEffect, useState } from "react";
@@ -19,23 +24,27 @@ type Day = {
   date?: Date;
   day?: number;
   isToday?: boolean;
-  contests?: string[];
+  contests?: Contest[];
 };
 
 type Contest = {
   contestStartDate: string;
   platform: string;
+  contestUrl: string;
+  contestName: string;
 };
 
 function getCalendar(contests: Contest[]): Day[] {
-  const pool: Record<string, string[]> = {};
+  const pool: Record<string, Contest[]> = {};
   if (contests) {
-    for (let contest of contests) {
+    for (let contest of contests.filter((contest) =>
+      ["leetcode", "codeforces"].includes(contest.platform),
+    )) {
       const key = format(contest.contestStartDate, "yyyy-MM-dd");
       if (key in pool) {
-        pool[key].push(contest.platform);
+        pool[key].push(contest);
       } else {
-        pool[key] = [contest.platform];
+        pool[key] = [contest];
       }
     }
   }
@@ -118,27 +127,66 @@ function App() {
           </span>
         ))}
         {calendar.map(({ filler, date, contests, isToday }, index) => (
-          <div
-            key={index}
-            className={twMerge(
-              "w-full h-full aspect-square col-span-1 rounded-xl flex flex-col-reverse items-center p-1 text-neutral-300 border-2 border-transparent transition-all delay-70",
-              isToday
-                ? "border-2 border-green-800 md:hover:border-green-500"
-                : filler
-                  ? "bg-neutral-950"
-                  : "bg-neutral-900 md:hover:border-neutral-500",
-            )}
-          >
-            {!filler && date && contests ? (
-              <>
-                {format(date, "dd")}
-                <div className="hidden md:flex m-auto items-center gap-1">
-                  {contests.includes("leetcode") ? <Leetcode /> : null}
-                  {contests.includes("codeforces") ? <CodeForces /> : null}
+          <HoverCard>
+            <HoverCardTrigger>
+              <div
+                key={index}
+                className={twMerge(
+                  "w-full h-full aspect-square col-span-1 rounded-xl flex flex-col-reverse items-center p-1 text-neutral-300 border-2 border-transparent transition-all delay-70",
+                  isToday
+                    ? "border-2 border-green-800 md:hover:border-green-500"
+                    : filler
+                      ? "bg-neutral-950"
+                      : "bg-neutral-900 md:hover:border-neutral-500",
+                )}
+              >
+                {!filler && date && contests ? (
+                  <>
+                    {format(date, "dd")}
+                    <div className="hidden md:flex m-auto items-center gap-2">
+                      {contests.find((con) => con.platform === "leetcode") && (
+                        <Leetcode />
+                      )}
+                      {contests.find(
+                        (con) => con.platform === "codeforces",
+                      ) && <CodeForces />}
+                    </div>
+                  </>
+                ) : null}
+              </div>
+            </HoverCardTrigger>
+            <HoverCardContent className="border-none text-neutral-200 bg-neutral-800">
+              {contests && contests.length > 0 ? (
+                <div className="flex flex-col gap-1 items-start">
+                  {date && (
+                    <span className="mb-4 text-neutral-500">
+                      {format(date, "dd MMM yyyy")}
+                    </span>
+                  )}
+                  <ul className="flex flex-col items-start gap-3">
+                    {contests.map((cont, index) => (
+                      <li key={index} className="flex items-center gap-2">
+                        {cont.platform === "leetcode" ? (
+                          <Leetcode />
+                        ) : cont.platform === "codeforces" ? (
+                          <CodeForces />
+                        ) : null}
+                        <a
+                          href={cont.contestUrl}
+                          target="_blank"
+                          className="underline underline-offset-2"
+                        >
+                          {cont.contestName}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </>
-            ) : null}
-          </div>
+              ) : (
+                <p>No contests.</p>
+              )}
+            </HoverCardContent>
+          </HoverCard>
         ))}
       </div>
 
