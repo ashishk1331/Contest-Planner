@@ -68,38 +68,40 @@ export default function Calendar({ calendar }: CalendarProps) {
 							) : null}
 						</div>
 					</HoverCardTrigger>
-					<HoverCardContent className="border-none text-neutral-200 bg-neutral-800">
-						{contests && contests.length > 0 ? (
-							<div className="flex flex-col gap-1 items-start">
-								{date && (
-									<span className="mb-4 text-neutral-500">
-										{format(date, "dd MMM yyyy")}
-									</span>
-								)}
-								<ul className="flex flex-col items-start gap-3">
-									{contests.map((cont, index) => (
-										<li
-											key={index}
-											className="flex items-center gap-2"
-										>
-											<PlatformLogo
-												platform={cont.platform}
-											/>
-											<a
-												href={cont.contestUrl}
-												target="_blank"
-												className="underline underline-offset-2"
+					{!filler && (
+						<HoverCardContent className="border-none text-neutral-200 bg-neutral-800">
+							{contests && contests.length > 0 ? (
+								<div className="flex flex-col gap-1 items-start">
+									{date && (
+										<span className="mb-4 text-neutral-500">
+											{format(date, "dd MMM yyyy")}
+										</span>
+									)}
+									<ul className="flex flex-col items-start gap-3">
+										{contests.map((cont, index) => (
+											<li
+												key={index}
+												className="flex items-center gap-2"
 											>
-												{cont.contestName}
-											</a>
-										</li>
-									))}
-								</ul>
-							</div>
-						) : (
-							<p>No contests.</p>
-						)}
-					</HoverCardContent>
+												<PlatformLogo
+													platform={cont.platform}
+												/>
+												<a
+													href={cont.contestUrl}
+													target="_blank"
+													className="underline underline-offset-2"
+												>
+													{cont.contestName}
+												</a>
+											</li>
+										))}
+									</ul>
+								</div>
+							) : (
+								<p>No contests.</p>
+							)}
+						</HoverCardContent>
+					)}
 				</HoverCard>
 			))}
 		</div>
