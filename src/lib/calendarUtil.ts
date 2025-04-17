@@ -14,7 +14,9 @@ export function getCalendar(contests: Contest[]): Day[] {
   const pool: Record<string, Contest[]> = {};
   if (contests) {
     for (let contest of contests.filter((contest) =>
-      ["leetcode", "codeforces"].includes(contest.platform),
+      ["leetcode", "codeforces", "codechef", "geeksforgeeks"].includes(
+        contest.platform,
+      ),
     )) {
       const key = format(contest.contestStartDate, "yyyy-MM-dd");
       if (key in pool) {

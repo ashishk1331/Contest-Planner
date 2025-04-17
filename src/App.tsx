@@ -28,7 +28,7 @@ function App() {
   }, []);
 
   return (
-    <div className="container mx-auto max-w-xl min-h-screen w-full flex flex-col gap-8 h-fit my-24 p-4 md:p-0">
+    <div className="container mx-auto max-w-2xl min-h-screen w-full flex flex-col gap-8 h-fit my-16 p-4 md:p-0">
       <div className="flex items-center justify-between">
         <h1 className="text-4xl font-bold text-neutral-200 font-mono">
           {format(date, "MMM yyyy").toUpperCase()}

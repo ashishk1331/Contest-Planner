@@ -1,6 +1,4 @@
 import { format } from "date-fns";
-import Leetcode from "@/logos/Leetcode";
-import CodeForces from "@/logos/CodeForces";
 import {
 	HoverCard,
 	HoverCardContent,
@@ -8,6 +6,7 @@ import {
 } from "@/components/ui/hover-card";
 import { twMerge } from "tailwind-merge";
 import { type Day } from "@/types";
+import PlatformLogo from "./PlatformLogo";
 
 type CalendarProps = {
 	calendar: Day[];
@@ -43,15 +42,27 @@ export default function Calendar({ calendar }: CalendarProps) {
 							{!filler && date && contests ? (
 								<>
 									{format(date, "dd")}
+
 									<div className="hidden md:flex m-auto items-center gap-2">
-										{contests.find(
-											(con) =>
-												con.platform === "leetcode",
-										) && <Leetcode />}
-										{contests.find(
-											(con) =>
-												con.platform === "codeforces",
-										) && <CodeForces />}
+										{contests.length < 3 ? (
+											contests.map(
+												({ platform }, index) => (
+													<PlatformLogo
+														key={index}
+														platform={platform}
+													/>
+												),
+											)
+										) : (
+											<>
+												<PlatformLogo
+													platform={
+														contests[0].platform
+													}
+												/>
+												<span className="w-2 aspect-square rounded-full text-sm bg-orange-600" />
+											</>
+										)}
 									</div>
 								</>
 							) : null}
@@ -71,12 +82,9 @@ export default function Calendar({ calendar }: CalendarProps) {
 											key={index}
 											className="flex items-center gap-2"
 										>
-											{cont.platform === "leetcode" ? (
-												<Leetcode />
-											) : cont.platform ===
-											  "codeforces" ? (
-												<CodeForces />
-											) : null}
+											<PlatformLogo
+												platform={cont.platform}
+											/>
 											<a
 												href={cont.contestUrl}
 												target="_blank"

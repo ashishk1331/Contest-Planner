@@ -1,7 +1,6 @@
 import { compareAsc, format } from "date-fns";
-import Leetcode from "../logos/Leetcode";
-import CodeForces from "../logos/CodeForces";
 import { type Day, Contest } from "@/types";
+import PlatformLogo from "./PlatformLogo";
 
 function convertCalendarToContests(calendar: Day[]): Record<string, Contest[]> {
 	const contests: Record<string, Contest[]> = {};
@@ -33,11 +32,7 @@ export default function List({ calendar }: ListProps) {
 								key={cont._id}
 								className="w-full py-4 px-5 bg-neutral-900 rounded flex items-center gap-4"
 							>
-								{cont.platform === "leetcode" ? (
-									<Leetcode />
-								) : cont.platform === "codeforces" ? (
-									<CodeForces />
-								) : null}
+								<PlatformLogo platform={cont.platform} />
 								<div className="flex flex-col items-start gap-2">
 									<a
 										href={cont.contestUrl}
