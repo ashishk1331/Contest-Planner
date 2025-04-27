@@ -1,6 +1,8 @@
-import { compareAsc, format } from "date-fns";
+import { compareAsc, format, isFuture, isSameDay } from "date-fns";
 import { type Day, Contest } from "@/types";
 import PlatformLogo from "./PlatformLogo";
+import { twMerge } from "tailwind-merge";
+import { useCountdown } from "@/hooks/useCountdown";
 
 function convertCalendarToContests(calendar: Day[]): Record<string, Contest[]> {
 	const contests: Record<string, Contest[]> = {};
@@ -17,6 +19,7 @@ type ListProps = {
 
 export default function List({ calendar }: ListProps) {
 	const contestsForList = convertCalendarToContests(calendar);
+	const today = new Date();
 
 	return (
 		<ul className="flex flex-col gap-8">
@@ -28,39 +31,56 @@ export default function List({ calendar }: ListProps) {
 							{format(key, "dd MM yyyy")}
 						</li>
 						{value.map((cont) => (
-							<li
-								key={cont._id}
-								className="w-full py-4 px-5 bg-neutral-900 rounded flex items-center gap-4"
-							>
-								<PlatformLogo platform={cont.platform} />
-								<div className="flex flex-col items-start gap-2">
-									<a
-										href={cont.contestUrl}
-										className="underline underline-offset-2"
-									>
-										{cont.contestName}
-									</a>
-									<div className="flex items-center gap-4 *:text-neutral-500 *:text-sm">
-										<span>
-											{format(
-												cont.contestStartDate,
-												"h b",
-											) +
-												" - " +
-												format(
-													cont.contestEndDate,
-													"h b",
-												)}
-										</span>
-										<span>
-											{cont.contestDuration / 60} mins
-										</span>
-									</div>
-								</div>
-							</li>
+							<ListItem contest={cont} today={today} />
 						))}
 					</span>
 				))}
 		</ul>
+	);
+}
+
+function ListItem({ contest, today }: { contest: Contest; today: Date }) {
+	const { days, hours, minutes, seconds } = useCountdown(
+		new Date(contest.contestStartDate),
+	);
+	return (
+		<li
+			key={contest._id}
+			className={twMerge(
+				"w-full py-4 px-5 bg-neutral-900 rounded flex items-center gap-4",
+				isSameDay(today, contest.contestStartDate) && "bg-green-950/25",
+			)}
+		>
+			<PlatformLogo platform={contest.platform} />
+			<div className="flex flex-col items-start gap-2">
+				<a
+					href={contest.contestUrl}
+					className="underline underline-offset-2"
+				>
+					{contest.contestName}
+				</a>
+				<div className="flex items-center gap-4 *:text-neutral-500 *:text-sm">
+					<span>
+						{format(contest.contestStartDate, "h:mm b") +
+							" - " +
+							format(contest.contestEndDate, "h:mm b")}
+					</span>
+					<span>{contest.contestDuration / 60} mins</span>
+					{isFuture(contest.contestStartDate) && (
+						<span>
+							{[
+								days > 0 && days + "d",
+								hours > 0 && hours + "h",
+								minutes + "m",
+								seconds + "s",
+							]
+								.filter(Boolean)
+								.join(" ")}{" "}
+							left
+						</span>
+					)}
+				</div>
+			</div>
+		</li>
 	);
 }

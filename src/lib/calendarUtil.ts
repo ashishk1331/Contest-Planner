@@ -7,6 +7,7 @@ import {
   isSameDay,
   nextSaturday,
   isToday,
+  compareAsc,
 } from "date-fns";
 import { type Day, Contest } from "@/types";
 
@@ -49,7 +50,9 @@ export function getCalendar(contests: Contest[]): Day[] {
       filler: false,
       contests:
         format(nextDay, "yyyy-MM-dd") in pool
-          ? pool[format(nextDay, "yyyy-MM-dd")]
+          ? pool[format(nextDay, "yyyy-MM-dd")].sort((a, b) =>
+              compareAsc(a.contestStartDate, b.contestStartDate),
+            )
           : [],
     });
   }

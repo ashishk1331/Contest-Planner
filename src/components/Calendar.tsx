@@ -39,39 +39,29 @@ export default function Calendar({ calendar }: CalendarProps) {
 										: "bg-neutral-900 md:hover:border-neutral-500",
 							)}
 						>
-							{!filler && date && contests ? (
-								<>
-									{format(date, "dd")}
+							{date && format(date, "dd")}
 
+							{!filler &&
+								date &&
+								contests &&
+								contests.length > 0 && (
 									<div className="hidden md:flex m-auto items-center gap-2">
-										{contests.length < 3 ? (
-											contests.map(
-												({ platform }, index) => (
-													<PlatformLogo
-														key={index}
-														platform={platform}
-													/>
-												),
-											)
-										) : (
-											<>
-												<PlatformLogo
-													platform={
-														contests[0].platform
-													}
-												/>
-												<span className="w-2 aspect-square rounded-full text-sm bg-orange-600" />
-											</>
+										<PlatformLogo
+											platform={contests[0].platform}
+										/>
+										{contests.length > 1 && (
+											<span className="inline-flex items-center rounded-md bg-green-950 px-1.5 py-0.5 text-sm font-medium text-green-100">
+												+{contests.length - 1}
+											</span>
 										)}
 									</div>
-								</>
-							) : null}
+								)}
 						</div>
 					</HoverCardTrigger>
 					{!filler && (
 						<HoverCardContent className="border-none text-neutral-200 bg-neutral-800">
 							{contests && contests.length > 0 ? (
-								<div className="flex flex-col gap-1 items-start">
+								<div className="flex flex-col gap-1 items-start pb-2">
 									{date && (
 										<span className="mb-4 text-neutral-500">
 											{format(date, "dd MMM yyyy")}
