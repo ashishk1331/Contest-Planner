@@ -57,12 +57,14 @@ export function getCalendar(contests: Contest[]): Day[] {
     });
   }
 
-  let nextEnd = nextSaturday(end);
-  while (!isSameDay(end, nextEnd)) {
-    calendar.push({
-      filler: true,
-    });
-    end = addDays(end, 1);
+  if (calendar.length % 7 != 0) {
+    let nextEnd = nextSaturday(end);
+    while (!isSameDay(end, nextEnd)) {
+      calendar.push({
+        filler: true,
+      });
+      end = addDays(end, 1);
+    }
   }
 
   return calendar;

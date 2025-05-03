@@ -33,6 +33,13 @@ function App() {
         <h1 className="text-4xl font-bold text-neutral-200 font-mono">
           {format(date, "MMM yyyy").toUpperCase()}
         </h1>
+        <a
+          role="button"
+          href="#today"
+          className="rounded border border-green-900 p-2 px-4 bg-green-950 cursor-pointer text-sm"
+        >
+          Jump to present
+        </a>
       </div>
 
       <Calendar calendar={calendar} />

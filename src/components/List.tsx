@@ -27,7 +27,15 @@ export default function List({ calendar }: ListProps) {
 				.sort(([a], [b]) => compareAsc(a, b))
 				.map(([key, value]) => (
 					<span key={key + key} className="flex flex-col gap-2">
-						<li key={key} className="text-neutral-600">
+						<li
+							key={key}
+							id={
+								isSameDay(today, new Date(key))
+									? "today"
+									: undefined
+							}
+							className="text-neutral-600 scroll-mt-4"
+						>
 							{format(key, "dd MM yyyy")}
 						</li>
 						{value.map((cont) => (
@@ -59,7 +67,7 @@ function ListItem({ contest, today }: { contest: Contest; today: Date }) {
 				>
 					{contest.contestName}
 				</a>
-				<div className="flex items-center gap-4 *:text-neutral-500 *:text-sm">
+				<div className="flex flex-wrap items-center gap-x-4 gap-y-2 *:text-neutral-500 *:text-sm">
 					<span>
 						{format(contest.contestStartDate, "h:mm b") +
 							" - " +
