@@ -33,13 +33,14 @@ function App() {
         <h1 className="text-2xl md:text-4xl font-bold text-neutral-200">
           {format(date, "MMM yyyy").toUpperCase()}
         </h1>
-        <a
-          role="button"
-          href="#today"
-          className="rounded border border-green-900 p-2 px-4 bg-green-950 cursor-pointer text-xs md:text-sm"
-        >
-          Jump to present
-        </a>
+        <h1 className="text-2xl md:text-4xl font-bold text-neutral-200">
+          (
+          {calendar.reduce(
+            (prev, cur) => prev + (cur.contests?.length ?? 0),
+            0,
+          )}
+          )
+        </h1>
       </div>
 
       <Calendar calendar={calendar} />

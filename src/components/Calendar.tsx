@@ -34,7 +34,7 @@ export default function Calendar({ calendar }: CalendarProps) {
 						<div
 							key={index}
 							className={twMerge(
-								"w-full h-full aspect-square col-span-1 rounded-lg md:rounded-xl flex flex-col-reverse items-center p-1 text-neutral-300 border-2 border-transparent transition-all delay-70 text-xs md:text-base",
+								"w-full h-full aspect-square col-span-1 rounded-lg md:rounded-xl flex flex-col-reverse items-center p-1 text-neutral-300 border-2 border-transparent transition-all delay-70 text-[10px] md:text-base",
 								isToday
 									? "border-2 border-green-800 md:hover:border-green-500"
 									: filler
@@ -48,12 +48,12 @@ export default function Calendar({ calendar }: CalendarProps) {
 								date &&
 								contests &&
 								contests.length > 0 && (
-									<div className="hidden md:flex m-auto items-center gap-2">
+									<div className="flex m-auto items-center gap-2">
 										<PlatformLogo
 											platform={contests[0].platform}
 										/>
 										{contests.length > 1 && (
-											<span className="inline-flex items-center rounded-md bg-green-950 px-1.5 py-0.5 text-sm font-medium text-green-100">
+											<span className="hidden md:inline-flex items-center rounded-md bg-green-950 px-1.5 py-0.5 text-sm font-medium text-green-100">
 												+{contests.length - 1}
 											</span>
 										)}
