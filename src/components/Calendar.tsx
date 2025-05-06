@@ -16,7 +16,7 @@ export default function Calendar({ calendar }: CalendarProps) {
 	const days = ["SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT"];
 
 	return (
-		<div className="w-full grid grid-cols-7 gap-3 mb-12">
+		<div className="w-full grid grid-cols-7 gap-1 mb-12">
 			{days.map((day, index) => (
 				<span
 					key={index}
@@ -31,7 +31,7 @@ export default function Calendar({ calendar }: CalendarProps) {
 						<div
 							key={index}
 							className={twMerge(
-								"w-full h-full aspect-square col-span-1 rounded-xl flex flex-col-reverse items-center p-1 text-neutral-300 border-2 border-transparent transition-all delay-70",
+								"w-full h-full aspect-square col-span-1 rounded-lg md:rounded-xl flex flex-col-reverse items-center p-1 text-neutral-300 border-2 border-transparent transition-all delay-70 text-xs md:text-base",
 								isToday
 									? "border-2 border-green-800 md:hover:border-green-500"
 									: filler
