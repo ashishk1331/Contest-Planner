@@ -45,6 +45,18 @@ function App() {
       <Calendar calendar={calendar} />
 
       <List calendar={calendar} />
+
+      {calendar && calendar.length > 0 && (
+        <span className="w-full text-center text-neutral-600 cursor-pointer p-3">
+          made by{" "}
+          <a
+            href="https://github.com/ashishk1331/"
+            className="underline underline-offset-4"
+          >
+            @ashishk1331
+          </a>
+        </span>
+      )}
     </div>
   );
 }

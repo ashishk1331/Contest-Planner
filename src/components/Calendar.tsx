@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, getDay } from "date-fns";
 import {
 	HoverCard,
 	HoverCardContent,
@@ -20,7 +20,10 @@ export default function Calendar({ calendar }: CalendarProps) {
 			{days.map((day, index) => (
 				<span
 					key={index}
-					className="p-1 py-2 w-full rounded-lg bg-neutral-900 text-center text-xs font-medium"
+					className={twMerge(
+						"p-1 py-2 w-full rounded-lg bg-neutral-900 text-center text-xs font-medium",
+						getDay(new Date()) === index && "bg-neutral-800",
+					)}
 				>
 					{day}
 				</span>
@@ -35,11 +38,11 @@ export default function Calendar({ calendar }: CalendarProps) {
 								isToday
 									? "border-2 border-green-800 md:hover:border-green-500"
 									: filler
-										? "bg-neutral-950"
+										? "bg-transparent"
 										: "bg-neutral-900 md:hover:border-neutral-500",
 							)}
 						>
-							{date && format(date, "dd")}
+							{date && format(date, "d")}
 
 							{!filler &&
 								date &&
