@@ -110,7 +110,7 @@ function ListItem({ contest, today }: { contest: Contest; today: Date }) {
 					href={contest.contestUrl}
 					className={twMerge(
 						"underline underline-offset-2",
-						isPast(contest.contestStartDate) &&
+						isPast(contest.contestEndDate) &&
 							"text-neutral-500 no-underline",
 					)}
 				>
