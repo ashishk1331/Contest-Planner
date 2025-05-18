@@ -36,7 +36,9 @@ export default function List({ calendar }: ListProps) {
 	);
 
 	const upcomingEvents = events.filter(([a]) => isToday(a) || isFuture(a));
-	const pastEvents = events.filter(([a]) => isPast(a));
+	const pastEvents = events.filter(
+		([a]) => isPast(a) && !isSameDay(a, new Date()),
+	);
 
 	return (
 		<ul className="flex flex-col gap-8">
