@@ -31,15 +31,12 @@ function App() {
     <div className="container mx-auto max-w-2xl min-h-screen w-full flex flex-col gap-8 h-fit my-16 p-4 md:p-0">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl md:text-4xl font-bold text-neutral-200">
-          {format(date, "MMM yyyy").toUpperCase()}
+          {format(date, "MMMM yyyy")}
         </h1>
-        <h1 className="text-2xl md:text-4xl font-bold text-neutral-200">
-          (
-          {calendar.reduce(
+        <h1 className="text-2xl md:text-4xl font-bold text-neutral-200">{calendar.reduce(
             (prev, cur) => prev + (cur.contests?.length ?? 0),
             0,
           )}
-          )
         </h1>
       </div>
 

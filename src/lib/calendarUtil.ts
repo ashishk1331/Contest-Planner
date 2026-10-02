@@ -36,6 +36,8 @@ export function getCalendar(contests: Contest[]): Day[] {
   let previousEnd = previousSunday(start);
   while (!isSameDay(previousEnd, start)) {
     calendar.push({
+      date: previousEnd,
+      day: previousEnd.getDay(),
       filler: true,
     });
     previousEnd = addDays(previousEnd, 1);
@@ -61,6 +63,8 @@ export function getCalendar(contests: Contest[]): Day[] {
     let nextEnd = nextSaturday(end);
     while (!isSameDay(end, nextEnd)) {
       calendar.push({
+        date: nextEnd,
+        day: nextEnd.getDay(),        
         filler: true,
       });
       end = addDays(end, 1);
