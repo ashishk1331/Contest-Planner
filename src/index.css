@@ -123,3 +123,45 @@ body {
     @apply bg-background text-foreground;
 	}
 }
+
+@keyframes live-sheen-sweep {
+	0% {
+		background-position: 130% 0;
+	}
+	55% {
+		background-position: -130% 0;
+	}
+	100% {
+		background-position: -130% 0;
+	}
+}
+
+/* Light-green band sweeping across a live contest row via ::after. */
+.live-sheen {
+	position: relative;
+	overflow: hidden;
+}
+.live-sheen::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	pointer-events: none;
+	background: linear-gradient(
+		100deg,
+		transparent 30%,
+		rgb(34 197 94 / 0.1) 45%,
+		rgb(74 222 128 / 0.18) 50%,
+		rgb(34 197 94 / 0.1) 55%,
+		transparent 70%
+	);
+	background-size: 250% 100%;
+	background-repeat: no-repeat;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.live-sheen::after {
+		animation: live-sheen-sweep 3.5s linear infinite;
+		animation-delay: var(--sheen-delay, 0s);
+	}
+}

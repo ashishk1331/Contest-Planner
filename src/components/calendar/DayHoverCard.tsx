@@ -11,15 +11,24 @@ import ContestLink from "./ContestLink";
 type DayHoverCardProps = {
 	day: Day;
 	onSelect: (day: Day) => void;
+	isAnyContestLive?: boolean;
 };
 
-export default function DayHoverCard({ day, onSelect }: DayHoverCardProps) {
+export default function DayHoverCard({
+	day,
+	onSelect,
+	isAnyContestLive,
+}: DayHoverCardProps) {
 	const { filler, date, contests } = day;
 
 	return (
 		<HoverCard>
 			<HoverCardTrigger asChild>
-				<CalendarDayCell day={day} onSelect={onSelect} />
+				<CalendarDayCell
+					day={day}
+					onSelect={onSelect}
+					isAnyContestLive={isAnyContestLive}
+				/>
 			</HoverCardTrigger>
 			{!filler && (
 				<HoverCardContent className="border-none text-neutral-200 bg-neutral-800">

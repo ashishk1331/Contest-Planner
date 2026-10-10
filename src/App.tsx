@@ -6,9 +6,11 @@ import Calendar from "./components/Calendar";
 import { type Day } from "./types";
 
 function App() {
-  const date = new Date();
+  const [date] = useState(() => new Date());
 
-  const [calendar, setCalender] = useState<Array<Day>>(getCalendar([]));
+  const [calendar, setCalender] = useState<Array<Day>>(() =>
+    getCalendar([], date),
+  );
 
   useEffect(() => {
     async function getContests() {
@@ -20,12 +22,12 @@ function App() {
       );
       if (response.ok) {
         const contests = await response.json();
-        setCalender(getCalendar(contests.data));
+        setCalender(getCalendar(contests.data, date));
       }
     }
 
     getContests();
-  }, []);
+  }, [date]);
 
   return (
     <div className="container mx-auto max-w-2xl min-h-screen w-full flex flex-col gap-8 h-fit my-16 p-4 md:p-0">

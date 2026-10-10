@@ -1,17 +1,47 @@
 import {
 	compareAsc,
+	differenceInCalendarDays,
 	format,
 	isFuture,
 	isPast,
 	isSameDay,
 	isToday,
 } from "date-fns";
+import { Circle } from "@phosphor-icons/react";
 import { type Day, Contest } from "@/types";
 import ContestListItem from "./ContestListItem";
 
+function getDaysAwayLabel(dateKey: string): string {
+	const diff = differenceInCalendarDays(new Date(dateKey), new Date());
+	if (diff === 0) return "Today";
+	if (diff === 1) return "1 day away";
+	if (diff > 1) return `${diff} days away`;
+	if (diff === -1) return "1 day ago";
+	return `${Math.abs(diff)} days ago`;
+}
+
+function DateSubHeading({
+	dateKey,
+	id,
+}: {
+	dateKey: string;
+	id?: string;
+}) {
+	return (
+		<li
+			id={id}
+			className="text-neutral-600 scroll-mt-4 flex items-center gap-2"
+		>
+			<span>{format(dateKey, "dd MM yyyy")}</span>
+			<Circle weight="fill" size={4} className="fill-neutral-600" />
+			<span>{getDaysAwayLabel(dateKey)}</span>
+		</li>
+	);
+}
+
 function convertCalendarToContests(calendar: Day[]): Record<string, Contest[]> {
 	const contests: Record<string, Contest[]> = {};
-	for (let day of calendar.filter((day) => !day.filler)) {
+	for (const day of calendar.filter((day) => !day.filler)) {
 		if (day.date && day.contests && day.contests.length > 0)
 			contests[format(day.date, "yyyy-MM-dd")] = day.contests;
 	}
@@ -44,11 +74,13 @@ export default function List({ calendar }: ListProps) {
 			</li>
 			{upcomingEvents.map(([key, value]) => (
 				<span key={key} className="flex flex-col gap-2">
-					<li key={key} className="text-neutral-600 scroll-mt-4">
-						{format(key, "dd MM yyyy")}
-					</li>
-					{value.map((cont) => (
-						<ContestListItem key={cont._id} contest={cont} />
+					<DateSubHeading dateKey={key} />
+					{value.map((cont, index) => (
+						<ContestListItem
+							key={cont._id}
+							contest={cont}
+							index={index}
+						/>
 					))}
 				</span>
 			))}
@@ -61,18 +93,20 @@ export default function List({ calendar }: ListProps) {
 					</li>
 					{pastEvents.map(([key, value]) => (
 						<span key={key} className="flex flex-col gap-2">
-							<li
+							<DateSubHeading
+								dateKey={key}
 								id={
 									isSameDay(today, new Date(key))
 										? "today"
 										: undefined
 								}
-								className="text-neutral-600 scroll-mt-4"
-							>
-								{format(key, "dd MM yyyy")}
-							</li>
-							{value.map((cont) => (
-								<ContestListItem key={cont._id} contest={cont} />
+							/>
+							{value.map((cont, index) => (
+								<ContestListItem
+									key={cont._id}
+									contest={cont}
+									index={index}
+								/>
 							))}
 						</span>
 					))}

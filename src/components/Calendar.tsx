@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { type Day } from "@/types";
+import { isContestLive } from "@/lib/contestUtil";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import WeekdayHeader from "./calendar/WeekdayHeader";
 import DayHoverCard from "./calendar/DayHoverCard";
@@ -20,12 +21,22 @@ export default function Calendar({ calendar }: CalendarProps) {
 		setDrawerOpen(true);
 	}
 
+	const now = new Date();
+	const isAnyContestLive = calendar.some((day) =>
+		day.contests?.some((contest) => isContestLive(contest, now)),
+	);
+
 	return (
 		<>
 			<div className="w-full grid grid-cols-7 gap-1 mb-12">
 				<WeekdayHeader />
 				{calendar.map((day, index) => (
-					<DayHoverCard key={index} day={day} onSelect={handleDayClick} />
+					<DayHoverCard
+						key={index}
+						day={day}
+						onSelect={handleDayClick}
+						isAnyContestLive={isAnyContestLive}
+					/>
 				))}
 			</div>
 

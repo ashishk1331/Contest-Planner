@@ -2,21 +2,28 @@ import { format } from "date-fns";
 import type { HTMLAttributes, Ref } from "react";
 import { twMerge } from "tailwind-merge";
 import { type Day } from "@/types";
+import { isContestLive } from "@/lib/contestUtil";
 import PlatformLogo from "@/components/PlatformLogo";
 
 type CalendarDayCellProps = {
 	day: Day;
 	onSelect: (day: Day) => void;
+	isAnyContestLive?: boolean;
 	ref?: Ref<HTMLDivElement>;
-} & Omit<HTMLAttributes<HTMLDivElement>, "onSelect">;
+} & Omit<HTMLAttributes<HTMLDivElement>, "onSelect" | "isAnyContestLive">;
 
 export default function CalendarDayCell({
 	day,
 	onSelect,
+	isAnyContestLive,
 	ref,
 	...triggerProps
 }: CalendarDayCellProps) {
 	const { filler, date, contests, isToday } = day;
+
+	const showSheen =
+		isToday &&
+		(isAnyContestLive || !!contests?.some((contest) => isContestLive(contest)));
 
 	return (
 		<div
@@ -28,6 +35,7 @@ export default function CalendarDayCell({
 			}}
 			className={twMerge(
 				"w-full h-full aspect-square col-span-1 rounded-xl md:rounded-2xl flex flex-col-reverse items-center p-1 text-neutral-300 border-2 border-transparent transition-all delay-70 text-[10px] md:text-base",
+				showSheen && "live-sheen",
 				isToday
 					? "border-2 border-green-800 text-green-500 bg-green-800/12 md:hover:border-green-500"
 					: filler

@@ -11,11 +11,11 @@ import {
 } from "date-fns";
 import { type Day, Contest } from "@/types";
 
-export function getCalendar(contests: Contest[]): Day[] {
+export function getCalendar(contests: Contest[], anchorDate: Date): Day[] {
   const pool: Record<string, Contest[]> = {};
   if (contests) {
-    for (let contest of contests.filter((contest) =>
-      ["leetcode", "codeforces", "codechef", "geeksforgeeks"].includes(
+    for (const contest of contests.filter((contest) =>
+      ["leetcode", "codeforces", "codechef", "geeksforgeeks", "atcoder"].includes(
         contest.platform,
       ),
     )) {
@@ -28,9 +28,8 @@ export function getCalendar(contests: Contest[]): Day[] {
     }
   }
 
-  const date = new Date();
-  const start = startOfMonth(date);
-  let end = endOfMonth(date);
+  const start = startOfMonth(anchorDate);
+  let end = endOfMonth(anchorDate);
   const calendar: Day[] = [];
 
   let previousEnd = previousSunday(start);
@@ -60,7 +59,7 @@ export function getCalendar(contests: Contest[]): Day[] {
   }
 
   if (calendar.length % 7 != 0) {
-    let nextEnd = nextSaturday(end);
+    const nextEnd = nextSaturday(end);
     while (!isSameDay(end, nextEnd)) {
       calendar.push({
         date: nextEnd,
