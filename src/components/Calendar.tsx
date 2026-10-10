@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { format } from "date-fns";
 import { type Day } from "@/types";
 import { isContestLive } from "@/lib/contestUtil";
 import { useIsMobile } from "@/hooks/useIsMobile";
@@ -33,9 +34,11 @@ export default function Calendar({ calendar }: CalendarProps) {
 			</div>
 
 			<div className="w-full grid grid-cols-7 gap-1 lg:flex-1 lg:min-h-0 lg:auto-rows-fr">
-				{calendar.map((day, index) => (
+				{calendar.map((day) => (
 					<DayHoverCard
-						key={index}
+						key={
+							day.date ? format(day.date, "yyyy-MM-dd") : "undated"
+						}
 						day={day}
 						onSelect={handleDayClick}
 						isAnyContestLive={isAnyContestLive}
