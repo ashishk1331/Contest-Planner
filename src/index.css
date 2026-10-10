@@ -122,6 +122,28 @@ body {
   body {
     @apply bg-background text-foreground;
 	}
+  /* Slim rounded gray pill scrollbar, no arrows. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #404040 transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: #404040;
+    border-radius: 9999px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: #525252;
+  }
+  *::-webkit-scrollbar-button {
+    display: none;
+  }
 }
 
 @keyframes live-sheen-sweep {

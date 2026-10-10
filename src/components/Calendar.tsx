@@ -28,8 +28,11 @@ export default function Calendar({ calendar }: CalendarProps) {
 
 	return (
 		<>
-			<div className="w-full grid grid-cols-7 gap-1 mb-12">
+			<div className="w-full grid grid-cols-7 gap-1">
 				<WeekdayHeader />
+			</div>
+
+			<div className="w-full grid grid-cols-7 gap-1 lg:flex-1 lg:min-h-0 lg:auto-rows-fr">
 				{calendar.map((day, index) => (
 					<DayHoverCard
 						key={index}
